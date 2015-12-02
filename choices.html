@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Choices &mdash; autopilot 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="autopilot 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="Changelog for autopilot" href="changelog.html"/>
+        <link rel="prev" title="Introduction" href="intro.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> autopilot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">autopilot - Make Python packaging easy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Choices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-version">Project version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-workflow">Git workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changelog">Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog for autopilot</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">autopilot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Choices</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/choices.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="choices">
+<h1>Choices<a class="headerlink" href="#choices" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="structure">
+<h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
+<p>In our top level directory, we have the following folders:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">src/${project_name}</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This way you get import parity, see <a class="reference external" href="http://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure">http://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure</a></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">docs</p>
+</li>
+<li><p class="first">tests</p>
+</li>
+</ul>
+</div></blockquote>
+<p>And the following files:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">setup.py</p>
+</li>
+<li><p class="first">README.rst</p>
+</li>
+<li><p class="first">CHANGELOG.rst</p>
+</li>
+<li><p class="first">LICENSE</p>
+</li>
+<li><p class="first">.gitignore</p>
+</li>
+<li><p class="first">requirements.txt</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Here you have your dev requirements</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">setup.cfg</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This file is for external utilities configuration</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">tox.ini</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Test both with coverage measurements and without. See <a class="reference external" href="http://blog.ionelmc.ro/2014/05/25/python-packaging/#tl-dr">http://blog.ionelmc.ro/2014/05/25/python-packaging/#tl-dr</a>
+For coverage we do a <cite>pip install -e</cite>, but test with a normal pip install are also great.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">.travis.yml</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use tox file here.</p>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="project-version">
+<h2>Project version<a class="headerlink" href="#project-version" title="Permalink to this headline">¶</a></h2>
+<p>In your <cite>src/${project_name}/__init__.py</cite> file. We can extract it later using regex</p>
+</div>
+<div class="section" id="git-workflow">
+<h2>Git workflow<a class="headerlink" href="#git-workflow" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://endoflineblog.com/gitflow-considered-harmful">http://endoflineblog.com/gitflow-considered-harmful</a></p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Autopilot includes some default licenses, like <cite>GPLv2</cite> or <cite>MIT</cite>. You need to
+choose one, which would be copied into the <cite>LICENSE</cite> file, at the top directory
+of your project. There is an special type of license, <cite>Private</cite>. This one
+doesn&#8217;t add a license file (well, it creates a <cite>LICENSE</cite> file, but is just link
+to the <a class="reference external" href="http://www.gnu.org/licenses/license-list.en.html#NoLicense">GNU licenses website</a>). This license
+also adds a classifier to your package, &#8220;Private :: Do Not Upload&#8221;.  PyPI will
+refuse to accept packages with unknown classifiers, hence we want to use it for
+private packages to protect ourselfs from a mistake. Anyways, if we have a
+private <a class="reference external" href="http://doc.devpi.net/latest/">devpi</a> we still can uplaod the package there.</p>
+<p>If you want to add a new license to the list of licenses, put the license file
+at <cite>$XDG_CONFIG_HOME/autopilot/licenses</cite> directory (usually
+<cite>~/.config/autopilot/licenses</cite>). Filename would be used to generate the
+selectable list of licenses.  By default, user licenses are private, and the
+<cite>Private</cite> classifier would be added to your <cite>setup.py</cite>. If you want to change
+this behaviour, the first line of your license must be like this:</p>
+<div class="highlight-text"><div class="highlight"><pre># pypi license: License name
+</pre></div>
+</div>
+<p>where license name must be a valid license name listed here: <a class="reference internal" href="license_list.html"><em>List of valid PyPI licenses</em></a></p>
+<p>The list was extracted from <a class="reference external" href="https://pypi.python.org/pypi?%3Aaction=list_classifiers">PyPI list of classifiers</a>. For the OSI
+licenses you can remove <cite>&#8216;OSI Approved ::&#8217;</cite> from the license name.</p>
+<p>That first line, and all the empty lines after them, are not copied to your <cite>LICENSE</cite> file.</p>
+</div>
+<div class="section" id="changelog">
+<h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>You should maintain a changelog file (<cite>CHANGELOG.rst</cite>). When you do a new
+release, it is possible to open the changelog with a text editor, but any
+changes you do to the file, would be discarded. For that reason, is recommended
+to open the editor in read-only mode. If you use vim, you can set the editor to
+<cite>vim -R</cite> on your local autopilot configuration:</p>
+<div class="highlight-python"><div class="highlight"><pre>editor: vim -R
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog for autopilot" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, José Luis Lafuente.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

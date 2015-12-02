@@ -1,0 +1,11 @@
+ipython
+ipdb
+flake8-pep257
+Sphinx
+sphinx_rtd_theme
+sphinxcontrib-napoleon
+tox
+pytest
+pytest-cov
+devpi-client
+-e .

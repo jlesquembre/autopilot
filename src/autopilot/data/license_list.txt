@@ -1,0 +1,65 @@
+Aladdin Free Public License (AFPL)
+CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+DFSG approved
+Eiffel Forum License (EFL)
+Free For Educational Use
+Free For Home Use
+Free for non-commercial use
+Freely Distributable
+Free To Use But Restricted
+Freeware
+Netscape Public License (NPL)
+Nokia Open Source License (NOKOS)
+OSI Approved :: Academic Free License (AFL)
+OSI Approved :: Apache Software License
+OSI Approved :: Apple Public Source License
+OSI Approved :: Artistic License
+OSI Approved :: Attribution Assurance License
+OSI Approved :: BSD License
+OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)
+OSI Approved :: Common Public License
+OSI Approved :: Eiffel Forum License
+OSI Approved :: European Union Public Licence 1.0 (EUPL 1.0)
+OSI Approved :: European Union Public Licence 1.1 (EUPL 1.1)
+OSI Approved :: GNU Affero General Public License v3
+OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+OSI Approved :: GNU Free Documentation License (FDL)
+OSI Approved :: GNU General Public License (GPL)
+OSI Approved :: GNU General Public License v2 (GPLv2)
+OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+OSI Approved :: GNU General Public License v3 (GPLv3)
+OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)
+OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
+OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)
+OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+OSI Approved :: IBM Public License
+OSI Approved :: Intel Open Source License
+OSI Approved :: ISC License (ISCL)
+OSI Approved :: Jabber Open Source License
+OSI Approved :: MIT License
+OSI Approved :: MITRE Collaborative Virtual Workspace License (CVW)
+OSI Approved :: Motosoto License
+OSI Approved :: Mozilla Public License 1.0 (MPL)
+OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)
+OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+OSI Approved :: Nethack General Public License
+OSI Approved :: Nokia Open Source License
+OSI Approved :: Open Group Test Suite License
+OSI Approved :: Python License (CNRI Python License)
+OSI Approved :: Python Software Foundation License
+OSI Approved :: Qt Public License (QPL)
+OSI Approved :: Ricoh Source Code Public License
+OSI Approved :: Sleepycat License
+OSI Approved :: Sun Industry Standards Source License (SISSL)
+OSI Approved :: Sun Public License
+OSI Approved :: University of Illinois/NCSA Open Source License
+OSI Approved :: Vovida Software License 1.0
+OSI Approved :: W3C License
+OSI Approved :: X.Net License
+OSI Approved :: zlib/libpng License
+OSI Approved :: Zope Public License
+Other/Proprietary License
+Public Domain
+Repoze Public License

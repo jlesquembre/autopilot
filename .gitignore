@@ -1,0 +1,11 @@
+dist
+build
+*egg-info
+__pycache__
+MANIFEST
+.coverage
+.tox
+*.pyc
+docs/_build
+.noseids
+autopilot_local.yml

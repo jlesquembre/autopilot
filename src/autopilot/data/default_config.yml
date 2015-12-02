@@ -1,0 +1,24 @@
+author:
+  name: ''          # Take it from git config if empty
+  email: ''         # Take it from git config if empty
+
+new_project:
+  default_dir: ''   # Uses current working directory
+  license: gplv2
+  commit: true      # Do the initial commit?
+
+editor: ''          # Use $EDITOR, fallback to vim
+
+release:
+  upload: PyPI
+  push: true
+
+pypi_servers:
+  PyPI:
+    user: ''
+    passeval: ''    # Executable command
+    url: 'https://pypi.python.org/pypi'
+  PyPI Test:
+    user: ''
+    passeval: ''    # Executable command
+    url: 'https://testpypi.python.org/pypi'

@@ -1,0 +1,10 @@
+autopilot
+ipython
+ipdb
+flake8
+flake8-pep257
+Sphinx
+tox
+pytest
+pytest-cov
+-e .

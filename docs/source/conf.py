@@ -11,8 +11,9 @@
 
 import sys
 import os
-#import pkg_resources
 import datetime
+
+from autopilot import __version__
 
 # -- Read the docs options ------------------
 
@@ -73,7 +74,7 @@ copyright = '{}, José Luis Lafuente'.format(datetime.datetime.now().year)
 # built documents.
 #
 # The short X.Y version.
-version = '0.0.1' #pkg_resources.get_distribution(project).version
+version = __version__
 
 # The full version, including alpha/beta/rc tags.
 release = version

@@ -11,8 +11,9 @@
 
 import sys
 import os
-import pkg_resources
 import datetime
+
+from ${project_name} import __version__
 
 # -- Read the docs options ------------------
 
@@ -79,7 +80,7 @@ copyright = '{}, ${author}'.format(datetime.datetime.now().year)
 # built documents.
 #
 # The short X.Y version.
-version = pkg_resources.get_distribution(project).version
+version = __version__
 
 # The full version, including alpha/beta/rc tags.
 release = version

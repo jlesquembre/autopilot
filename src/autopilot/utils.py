@@ -14,6 +14,7 @@ from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 from unittest.mock import patch
+from itertools import islice
 
 #import yaml
 import ruamel.yaml as yaml
@@ -303,20 +304,28 @@ def update_changelog(original, dest_dir, version, release=True):
     changelog = Path(dest_dir) / 'CHANGES.rst'
 
     header = get_header(original)
+    linenr = header['line']
 
     with original.open('rt') as src, changelog.open('wt') as dst:
-        for line_number, line in enumerate(src):
-            if line_number == header['line']:
-                date = datetime.now().strftime('%Y-%m-%d') if release else 'unreleased'
-                line = '{} ({})\n'.format(version, date)
-                dst.write(line)
-                dst.write('-' * (len(line) - 1 ))
-                dst.write('\n')
-                #- Nothing changed yet
-            elif line_number == header['line'] + 1:
-                pass
-            else:
-                dst.write(line)
+        for line in islice(src, 0, linenr):
+            dst.write(line)
+
+        if release:
+            src.readline()
+            line = '{} ({})\n'.format(version, datetime.now().strftime('%Y-%m-%d'))
+            dst.write(line)
+            dst.write('-' * (len(line) - 1 ))
+            dst.write('\n')
+            src.readline()
+        else:
+            line = '{} (unreleased)\n'.format(version)
+            dst.write(line)
+            dst.write('-' * (len(line) - 1 ))
+            dst.write('\n\n- Nothing changed yet\n\n\n')
+
+        for line in src:
+            dst.write(line)
+
 
     return changelog.as_posix()
 

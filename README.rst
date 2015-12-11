@@ -9,7 +9,8 @@ autopilot is a Python 3 utility helper to create and distribute Python packages.
 Documentation
 -------------
 
-Documentation for autopilot is hosted at http://jlesquembre.github.io/autopilot
+Documentation for autopilot is hosted at http://autopilot-docs.readthedocs.org/
+and at http://jlesquembre.github.io/autopilot/
 
 
 .. Status

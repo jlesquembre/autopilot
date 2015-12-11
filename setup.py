@@ -5,8 +5,9 @@ import ast
 import sys
 
 
-if sys.version_info < (3, 5):
-    sys.exit("Sorry, autopilot only supports Python 3.5 or better")
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if sys.version_info < (3, 5) and not on_rtd:
+    sys.exit('Sorry, autopilot only supports Python 3.5 or better')
 
 
 here = os.path.abspath(os.path.dirname(__file__))

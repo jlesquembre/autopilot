@@ -4,11 +4,11 @@ python:
 
 # command to install dependencies
 install:
-  - pip install . --use-mirrors
-  - pip install coveralls --use-mirrors
+  - pip install .
+  - pip install coveralls
 
 # command to run tests
-script: nosetests tests --with-coverage --cover-inclusive
+script: tox
 
 after_success:
   - coveralls

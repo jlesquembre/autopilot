@@ -14,6 +14,7 @@ from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
 from unittest.mock import patch
+from itertools import islice
 
 #import yaml
 import ruamel.yaml as yaml
@@ -300,36 +301,41 @@ def get_next_dev_version(version):
 def update_changelog(original, dest_dir, version, release=True):
 
     # TODO check if original really exists
-    changelog = Path(dest_dir) / 'CHANGES.rst'
+    changelog = Path(dest_dir) if isinstance(dest_dir, str) else dest_dir
+    changelog /= 'CHANGES.rst'
 
-    header = get_header(original)
+    linenr = get_header(original)
 
     with original.open('rt') as src, changelog.open('wt') as dst:
-        for line_number, line in enumerate(src):
-            if line_number == header['line']:
-                date = datetime.now().strftime('%Y-%m-%d') if release else 'unreleased'
-                line = '{} ({})\n'.format(version, date)
-                dst.write(line)
-                dst.write('-' * (len(line) - 1 ))
-                dst.write('\n')
-                #- Nothing changed yet
-            elif line_number == header['line'] + 1:
-                pass
-            else:
-                dst.write(line)
+        for line in islice(src, 0, linenr):
+            dst.write(line)
+
+        if release:
+            src.readline()
+            line = '{} ({})\n'.format(version, datetime.now().strftime('%Y-%m-%d'))
+            dst.write(line)
+            dst.write('-' * (len(line) - 1 ))
+            dst.write('\n')
+            src.readline()
+        else:
+            line = '{} (unreleased)\n'.format(version)
+            dst.write(line)
+            dst.write('-' * (len(line) - 1 ))
+            dst.write('\n\n- Nothing changed yet\n\n\n')
+
+        for line in src:
+            dst.write(line)
 
     return changelog.as_posix()
 
 
 def get_header(changelog):
-    """Return list of dicts with version-like headers.
-    We check for patterns like '2.10 (unreleased)', so with either
-    'unreleased' or a date between parenthesis as that's the format we're
-    using. Just fix up your first heading and you should be set.
-    As an alternative, we support an alternative format used by some
-    zope/plone paster templates: '2.10 - unreleased' or '2.10 ~ unreleased'
-    Note that new headers that zest.releaser sets are in our preferred
-    form (so 'version (date)').
+    """Return line number of the first version-like header.  We check for
+    patterns like '2.10 (unreleased)', so with either 'unreleased' or a date
+    between parenthesis as that's the format we're using.  As an alternative,
+    we support an alternative format used by some zope/plone paster templates:
+    '2.10 - unreleased' or '2.10 ~ unreleased' Note that new headers are in our
+    preferred form (so 'version (date)').
     """
     pattern = re.compile(r"""
     (?P<version>.+)  # Version string
@@ -345,26 +351,12 @@ def get_header(changelog):
     (?P<date>.+)     # Date
     \W*$             # Possible whitespace at end of line.
     """, re.VERBOSE)
-    #headings = []
-    #line_number = 0
     with changelog.open('rt') as f:
         for line_number, line in enumerate(f):
             match = pattern.search(line)
             alt_match = alt_pattern.search(line)
-            if match:
-                return {'line': line_number,
-                        'version': match.group('version').strip(),
-                        'date': match.group('date'.strip())}
-                #headings.append(result)
-                #logger.debug("Found heading: %r", result)
-            if alt_match:
-                return {'line': line_number,
-                        'version': alt_match.group('version').strip(),
-                        'date': alt_match.group('date'.strip())}
-                #headings.append(result)
-                #logger.debug("Found alternative heading: %r", result)
-            #line_number += 1
-    #return headings
+            if match or alt_match:
+                return line_number
 
 
 def update_version_file(original, dest_dir, version, project_name, release=True):

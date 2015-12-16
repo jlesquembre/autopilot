@@ -2,13 +2,21 @@ language: python
 python:
   - "3.5"
 
-# command to install dependencies
+before_install:
+  - python --version
+  - uname -a
+  - lsb_release -a
+
 install:
-  - pip install . --use-mirrors
-  - pip install coveralls --use-mirrors
+  - pip install .
+  - pip install coveralls
+  - pip install tox
+  - virtualenv --version
+  - pip --version
+  - tox --version
 
 # command to run tests
-script: nosetests tests --with-coverage --cover-inclusive
+script: tox
 
-after_success:
-  - coveralls
+#after_success:
+#  - coveralls

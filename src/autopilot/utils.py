@@ -301,7 +301,8 @@ def get_next_dev_version(version):
 def update_changelog(original, dest_dir, version, release=True):
 
     # TODO check if original really exists
-    changelog = Path(dest_dir) / 'CHANGES.rst'
+    changelog = Path(dest_dir) if isinstance(dest_dir, str) else dest_dir
+    changelog /= 'CHANGES.rst'
 
     header = get_header(original)
     linenr = header['line']

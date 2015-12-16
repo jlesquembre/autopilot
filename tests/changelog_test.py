@@ -34,7 +34,7 @@ Changelog for autopilot
      ], indirect=['reader'])
 def test_get_header(reader, line):
     result = get_header(reader)
-    assert result['line'] == line
+    assert result == line
 
 
 @pytest.mark.parametrize('reader,output,version,release', [

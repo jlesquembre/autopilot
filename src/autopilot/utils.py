@@ -304,8 +304,7 @@ def update_changelog(original, dest_dir, version, release=True):
     changelog = Path(dest_dir) if isinstance(dest_dir, str) else dest_dir
     changelog /= 'CHANGES.rst'
 
-    header = get_header(original)
-    linenr = header['line']
+    linenr = get_header(original)
 
     with original.open('rt') as src, changelog.open('wt') as dst:
         for line in islice(src, 0, linenr):
@@ -327,19 +326,16 @@ def update_changelog(original, dest_dir, version, release=True):
         for line in src:
             dst.write(line)
 
-
     return changelog.as_posix()
 
 
 def get_header(changelog):
-    """Return list of dicts with version-like headers.
-    We check for patterns like '2.10 (unreleased)', so with either
-    'unreleased' or a date between parenthesis as that's the format we're
-    using. Just fix up your first heading and you should be set.
-    As an alternative, we support an alternative format used by some
-    zope/plone paster templates: '2.10 - unreleased' or '2.10 ~ unreleased'
-    Note that new headers that zest.releaser sets are in our preferred
-    form (so 'version (date)').
+    """Return line number of the first version-like header.  We check for
+    patterns like '2.10 (unreleased)', so with either 'unreleased' or a date
+    between parenthesis as that's the format we're using.  As an alternative,
+    we support an alternative format used by some zope/plone paster templates:
+    '2.10 - unreleased' or '2.10 ~ unreleased' Note that new headers are in our
+    preferred form (so 'version (date)').
     """
     pattern = re.compile(r"""
     (?P<version>.+)  # Version string
@@ -355,26 +351,12 @@ def get_header(changelog):
     (?P<date>.+)     # Date
     \W*$             # Possible whitespace at end of line.
     """, re.VERBOSE)
-    #headings = []
-    #line_number = 0
     with changelog.open('rt') as f:
         for line_number, line in enumerate(f):
             match = pattern.search(line)
             alt_match = alt_pattern.search(line)
-            if match:
-                return {'line': line_number,
-                        'version': match.group('version').strip(),
-                        'date': match.group('date'.strip())}
-                #headings.append(result)
-                #logger.debug("Found heading: %r", result)
-            if alt_match:
-                return {'line': line_number,
-                        'version': alt_match.group('version').strip(),
-                        'date': alt_match.group('date'.strip())}
-                #headings.append(result)
-                #logger.debug("Found alternative heading: %r", result)
-            #line_number += 1
-    #return headings
+            if match or alt_match:
+                return line_number
 
 
 def update_version_file(original, dest_dir, version, project_name, release=True):

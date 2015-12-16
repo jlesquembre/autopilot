@@ -8,8 +8,8 @@ before_install:
   - lsb_release -a
 
 install:
-  - pip install . --use-mirrors
-  - pip install coveralls --use-mirrors
+  - pip install .
+  - pip install coveralls
   - pip install tox
   - virtualenv --version
   - pip --version

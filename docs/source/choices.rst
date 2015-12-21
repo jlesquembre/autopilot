@@ -69,7 +69,15 @@ And the following files:
 Project version
 ---------------
 
-In your `src/${project_name}/__init__.py` file. We can extract it later using regex
+In your ``src/${project_name}/__init__.py`` file. We can extract it later using
+regex on our `setup.py`. But it is also possible to get the version number in
+our python code:
+
+::
+
+    >>> import autopilot
+    >>> autopilot.__version__
+    '0.2.1'
 
 
 

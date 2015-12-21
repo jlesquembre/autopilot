@@ -35,7 +35,8 @@ easily automate your package release. Of course, the choices are not written in
 stone and can change over time, but the main idea is to change them only if
 there is a good reason.
 
-There is a talk from Yehuda Katz about defininig conventions, which I really recommend:
+There is a talk from Yehuda Katz about defining conventions, which I really
+recommend:
 
 `Link to youtube <https://www.youtube.com/watch?v=9naDS3r4MbY>`_
 

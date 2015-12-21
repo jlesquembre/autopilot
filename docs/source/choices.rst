@@ -90,8 +90,8 @@ to the `GNU licenses website
 <http://www.gnu.org/licenses/license-list.en.html#NoLicense>`_). This license
 also adds a classifier to your package, "Private :: Do Not Upload".  PyPI will
 refuse to accept packages with unknown classifiers, hence we want to use it for
-private packages to protect ourselfs from a mistake. Anyways, if we have a
-private devpi_ we still can uplaod the package there.
+private packages to protect ourselves from a mistake. Anyways, if we have a
+private devpi_ we still can upload the package there.
 
 
 If you want to add a new license to the list of licenses, put the license file
@@ -99,7 +99,7 @@ at `$XDG_CONFIG_HOME/autopilot/licenses` directory (usually
 `~/.config/autopilot/licenses`). Filename would be used to generate the
 selectable list of licenses.  By default, user licenses are private, and the
 `Private` classifier would be added to your `setup.py`. If you want to change
-this behaviour, the first line of your license must be like this:
+this behavior, the first line of your license must be like this:
 
 .. code-block:: text
 

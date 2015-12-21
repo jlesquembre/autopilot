@@ -135,3 +135,23 @@ to open the editor in read-only mode. If you use vim, you can set the editor to
     editor: vim -R
 
 .. _devpi: http://doc.devpi.net/latest/
+
+
+Files to distribute
+-------------------
+
+With autopilot you can avoid to write and maintain a ``MANIFEST.in`` file. All
+files under your ``src`` directory would be included in the package, unless you
+exclude them using a ``gitignore`` file. Also ``README.txt`` (or ``README``),
+``setup.py`` (or whatever you called your setup script), and ``setup.cfg``
+files are included by default by ``setuptools`` ( see `distutils docs
+<https://docs.python.org/3/distutils/sourcedist.html#specifying-the-files-to-distribute>`_)
+
+
+Autopilot also adds ``CHANGELOG.rst``, ``LICENSE`` and ``.gitignore`` files to
+the package.
+
+Take a look to `setuptools documentation
+<https://pythonhosted.org/setuptools/setuptools.html#adding-support-for-other-revision-control-systems>`_
+if you want to know how autopilot is able to modify the files to include in the
+package.

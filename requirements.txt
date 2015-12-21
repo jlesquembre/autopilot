@@ -4,6 +4,8 @@ flake8-pep257
 Sphinx
 sphinx_rtd_theme
 sphinxcontrib-napoleon
+sphinxcontrib-spelling
+pyenchant
 tox
 pytest
 pytest-cov

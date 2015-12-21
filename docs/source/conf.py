@@ -35,6 +35,10 @@ class Mock(object):
         else:
             return Mock()
 
+
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+
 MOCK_MODULES = ['magic']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
@@ -49,7 +53,10 @@ for mod_name in MOCK_MODULES:
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage',
               'sphinx.ext.pngmath', 'sphinx.ext.mathjax',
-              'sphinx.ext.intersphinx', 'sphinxcontrib.spelling']
+              'sphinx.ext.intersphinx']
+
+if not on_rtd:
+    extensions += ['sphinxcontrib.spelling']
 
 # Spelling settings
 spelling_show_suggestions = True

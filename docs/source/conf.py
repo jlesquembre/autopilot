@@ -49,7 +49,10 @@ for mod_name in MOCK_MODULES:
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage',
               'sphinx.ext.pngmath', 'sphinx.ext.mathjax',
-              'sphinx.ext.intersphinx']
+              'sphinx.ext.intersphinx', 'sphinxcontrib.spelling']
+
+# Spelling settings
+spelling_show_suggestions = True
 
 intersphinx_mapping = {'python': ('http://docs.python.org/3', None)}
 

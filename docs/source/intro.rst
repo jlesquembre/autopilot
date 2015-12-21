@@ -55,8 +55,9 @@ It is possible to override the default configuration. To do it, create a file
 at `XDG_CONFIG_HOME/autopilot/config.yml` (or `~/.config/autopilot/config.yml`
 if `XDG_CONFIG_HOME` is not defined). You can override just some of the
 options.  For every option, the logic is to look for the option in the user
-config file, if it's not there, search in autopilot default configuration, and
-if the option has an empty value, try to get the value from the system.
+configuration file, if it's not there, search in autopilot default
+configuration, and if the option has an empty value, try to get the value from
+the system.
 
 
 An example of a custom configuration file:

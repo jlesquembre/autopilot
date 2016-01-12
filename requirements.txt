@@ -10,4 +10,6 @@ tox
 pytest
 pytest-cov
 devpi-client
+pypiserver
+waitress
 -e .

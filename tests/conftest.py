@@ -7,7 +7,7 @@ from io import StringIO
 from urllib.request import urlopen
 from urllib.error import URLError
 from unittest.mock import MagicMock
-from pathlib import PurePath
+from pathlib import PurePath, Path
 
 import pytest
 
@@ -78,4 +78,4 @@ def pypi_server(request):
 
     request.addfinalizer(fin)
 
-    return server_url
+    return server_url, Path(tempdir.name)

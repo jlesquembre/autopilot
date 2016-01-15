@@ -78,4 +78,11 @@ def pypi_server(request):
 
     request.addfinalizer(fin)
 
-    return server_url, Path(tempdir.name)
+    tempdir_path = Path(tempdir.name)
+
+    passfile = tempdir_path / 'passwords'
+    if not passfile.exists():
+        with passfile.open('w') as f:
+            f.write('user:pass\n')
+
+    return server_url, tempdir_path

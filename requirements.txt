@@ -7,9 +7,7 @@ sphinxcontrib-napoleon
 sphinxcontrib-spelling
 pyenchant
 tox
-pytest
-pytest-cov
 devpi-client
-pypiserver
-waitress
+-r tests/requirements.txt
+pytest-cov
 -e .

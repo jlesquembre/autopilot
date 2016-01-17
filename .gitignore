@@ -10,3 +10,4 @@ docs/_build
 .noseids
 autopilot_local.yml
 .cache
+venv

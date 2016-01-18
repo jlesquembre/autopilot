@@ -2,6 +2,7 @@ import os
 import subprocess
 import tempfile
 import socket
+import shutil
 
 from io import StringIO
 from urllib.request import urlopen
@@ -58,10 +59,8 @@ def pypi_server(request):
     port = get_open_port()
     server_url = 'http://localhost:{}'.format(port)
     sink = open(os.devnull, 'w')
-    #cmd = ['pypi-server', '-P', 'passwords', 'packages']
-    cmd = ['pypi-server', '-p', str(port), tempdir.name]
+    cmd = ['pypi-server', '-p', str(port), '-P', '.', '-a','.', tempdir.name]
     server = subprocess.Popen(cmd, stdout=sink, stderr=sink)
-                              #,cwd=HERE)
     # wait for the server to start up
     response = None
     while response is None:
@@ -80,9 +79,21 @@ def pypi_server(request):
 
     tempdir_path = Path(tempdir.name)
 
-    passfile = tempdir_path / 'passwords'
-    if not passfile.exists():
-        with passfile.open('w') as f:
-            f.write('user:pass\n')
-
     return server_url, tempdir_path
+
+
+@pytest.fixture
+def fake_project_dir(request):
+    here = os.path.abspath(os.path.dirname(__file__))
+    fake_project = Path(here) / 'data' / 'fake_project'
+
+    tempdir = tempfile.TemporaryDirectory(prefix='fake_project_')
+    fake_project_copy = Path(tempdir.name) / 'fake_project'
+
+    shutil.copytree(fake_project.as_posix(), fake_project_copy.as_posix())
+
+    def fin():
+        tempdir.cleanup()
+    request.addfinalizer(fin)
+
+    return fake_project_copy

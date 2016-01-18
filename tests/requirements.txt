@@ -1,3 +1,3 @@
 pytest
-pypiserver
+pypiserver[passlib]
 waitress

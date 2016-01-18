@@ -4,6 +4,8 @@ from distutils.core import run_setup
 from io import StringIO
 from urllib.parse import urlparse
 from pathlib import Path
+from contextlib import contextmanager
+import os
 
 from urllib.error import HTTPError
 
@@ -11,7 +13,7 @@ import sarge
 
 from distlib.index import PackageIndex
 from distlib.util import HTTPSOnlyHandler
-from distlib.metadata import Metadata, LegacyMetadata
+from distlib.metadata import Metadata
 from distlib.locators import DirectoryLocator
 
 from autopilot.exceptions import FatalError
@@ -46,58 +48,49 @@ def _get_passwd(cmd):
     return passwd
 
 
-#KEYWORDS_TO_NOT_FLATTEN = set(["gpg_signature", "content"])
-#
-#def _convert_data_to_list_of_tuples(data):
-#    data_to_send = []
-#    for key, value in data.items():
-#        if (key in KEYWORDS_TO_NOT_FLATTEN or
-#                not isinstance(value, (list, tuple))):
-#            data_to_send.append((key, value))
-#        else:
-#            for item in value:
-#                data_to_send.append((key, item))
-#    return data_to_send
+@contextmanager
+def generate_dist(dist_dir=None, script_name='setup.py'):
 
+    if dist_dir:
+        current_wd = os.getcwd()
+        os.chdir(dist_dir)
 
-def pypi_upload(pypi_conf):
+    try:
 
-    with tempfile.TemporaryDirectory(prefix='ap_dist') as tmp_dir:
+        with tempfile.TemporaryDirectory(prefix='ap_dist') as tmp_dir,\
+             StringIO() as pkg_info:
 
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            dist = run_setup('setup.py', ['sdist', '-d', tmp_dir,
-                                          'bdist_wheel', '-d', tmp_dir])
+            with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                dist = run_setup(script_name, ['sdist', '-d', tmp_dir,
+                                               'bdist_wheel', '-d', tmp_dir])
 
-        with StringIO() as pkg_info:
+            local_locator = DirectoryLocator(tmp_dir)
+            filenames = [Path(urlparse(uri).path)
+                         for uri in local_locator.get_project(dist.metadata.name)['digests'].keys()]
+
             dist.metadata.write_pkg_file(pkg_info)
             pkg_info.seek(0)
-            # TODO use LegacyMetadata(1.1)
             metadata = Metadata(fileobj=pkg_info)
+            yield metadata, filenames
+    finally:
+        if dist_dir:
+            os.chdir(current_wd)
 
-        #metadata._legacy = LegacyMetadata(mapping=metadata_dict)
-        #metadata.update(metadata_dict)
 
-        index = PackageIndex(pypi_conf['url'])
-        #verifier = HTTPSOnlyHandler('/path/to/root/certs.pem')
-        verifier = HTTPSOnlyHandler('', False)
-        index.ssl_verifier = verifier
+def pypi_upload(pypi_conf, use_https=True, dist_dir=None):
+    index = PackageIndex(pypi_conf['url'])
+    if use_https:
+        index.ssl_verifier = HTTPSOnlyHandler('', False)
+    index.username = pypi_conf['user']
+    index.password = _get_passwd(pypi_conf['passeval'])
 
-        index.username = pypi_conf['user']
-        index.password = _get_passwd(pypi_conf['passeval'])
-
-        #if not in register:
-        #index.register(metadata)
-        #archive_name = '{}/{}-{}.tar.gz'.format(tmp_dir, metadata.name.replace('-', '_'), metadata.version)
-
-        #archive_name = '{}/{}-{}.tar.gz'.format(tmp_dir, metadata.name, metadata.version)
-
-        for filename in filenames:
+    with generate_dist(dist_dir) as (metadata, dist_files):
+        for filename in dist_files:
 
             for _ in range(2):
-                #meta = pkginfo.SDist(filename.as_posix())
-                #meta_dict = {k: getattr(mym, k)  for k in mym.iterkeys()}
                 try:
-                    response = index.upload_file(metadata, filename.as_posix(), filetype=DIST_EXTENSIONS[filename.suffix])
+                    response = index.upload_file(metadata, filename.as_posix(),
+                                                 filetype=DIST_EXTENSIONS[filename.suffix])
                 except HTTPError as err:
                     if err.code == 401:
                         raise FatalError('Unauthorized error, check your username and password')
@@ -106,17 +99,3 @@ def pypi_upload(pypi_conf):
                     index.register(metadata)
                 else:
                     break
-
-
-        #response = index.upload_file(metadata, archive_name,
-        #                             filetype='bdist_dumb',
-        #                             pyversion='2.6')
-
-if __name__ == '__main__':
-    pypi_upload({
-        'url': 'https://testpypi.python.org/pypi',
-        'user': 'jlesquembre',
-        'passeval': 'pass pypi/test',
-        }
-        )
-

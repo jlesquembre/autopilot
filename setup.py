@@ -58,6 +58,5 @@ setup(name='autopilot',
                         #'PyYAML>=3.11',
                         'ruamel.yaml>=0.10.7',
                         'sarge>=0.1.4',
-                        'twine==1.5.0',
                         ]
     )

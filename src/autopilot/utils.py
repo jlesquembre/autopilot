@@ -2,18 +2,14 @@ import os
 import re
 import distutils
 import shutil
-import tempfile
-import xmlrpc.client
 from contextlib import contextmanager
 from pathlib import Path
 from functools import lru_cache
 from distutils.core import run_setup
-from distutils.command.register import register
 from collections import deque, OrderedDict
 from collections.abc import MutableMapping
 from copy import deepcopy
 from datetime import datetime
-from unittest.mock import patch
 from itertools import islice
 
 #import yaml
@@ -21,12 +17,10 @@ import ruamel.yaml as yaml
 import sarge
 from git import Repo, Blob
 import git.exc
-from requests.exceptions import HTTPError
-
-from twine.commands.upload import upload as twine_upload
 
 from distlib.version import NormalizedVersion
 
+from .pypi import pypi_upload
 from .exceptions import FatalError
 
 
@@ -314,13 +308,13 @@ def update_changelog(original, dest_dir, version, release=True):
             src.readline()
             line = '{} ({})\n'.format(version, datetime.now().strftime('%Y-%m-%d'))
             dst.write(line)
-            dst.write('-' * (len(line) - 1 ))
+            dst.write('-' * (len(line) - 1))
             dst.write('\n')
             src.readline()
         else:
             line = '{} (unreleased)\n'.format(version)
             dst.write(line)
-            dst.write('-' * (len(line) - 1 ))
+            dst.write('-' * (len(line) - 1))
             dst.write('\n\n- Nothing changed yet\n\n\n')
 
         for line in src:
@@ -414,7 +408,7 @@ def release(project_name, project_dir, tmp_dir, release_version, next_dev_versio
     if pypi != 'nope':
         pypi_servers = {k.lower(): v for k ,v in pypi_servers.items()}
         with checkout_tag(repo, release_version):
-            _pypi_upload(repo, pypi_servers[pypi])
+            pypi_upload(pypi_conf=pypi_servers[pypi])
 
 
 @contextmanager
@@ -443,67 +437,3 @@ def _git_push(repo, last_tag):
 
         raise FatalError(
             'Error pushing changes to remote. Abort release and undo changes.')
-
-
-def _pypi_upload(repo, pypi_conf):
-
-    with tempfile.TemporaryDirectory(prefix='ap_dist') as tmp_dir, \
-         patch('twine.commands.upload.get_config') as mock:
-
-        mock.return_value = {'repo': {'repository': pypi_conf['url']}}
-
-        print('Generate distribution:\n'
-              'python setup.py sdist bdist_wheel\n' )
-        #sarge.run('python setup.py sdist -d {0} bdist_wheel -d {0}'.format(tmp_dir))
-        dist = run_setup('setup.py', ['sdist', '-d', tmp_dir,
-                                      'bdist_wheel', '-d', tmp_dir])
-
-        #passwd = sarge.get_stdout(pypi_conf['passeval']).strip()
-        command = sarge.capture_both(pypi_conf['passeval'])
-        command.wait()
-        passwd = command.stdout.text.strip()
-        if command.returncode != 0:
-            raise FatalError(
-                'Command "{}" failed\n'
-                'We cannot get a password\n'
-                'stdout:\n{}\n'
-                'stderr:\n{}\n'
-                .format(pypi_conf['passeval'], passwd, command.stderr.text.strip()))
-
-        for _ in range(2):
-            try:
-                # NOTE twine > 1.5.0 add a new argument, config_file. None should be ok
-                #      config_file=None
-                twine_upload(dists=[p.as_posix() for p in Path(tmp_dir).iterdir()],
-                             repository='repo', sign=None, identity=None,
-                             username=pypi_conf['user'], password=passwd,
-                             comment=None, sign_with=None)
-            except HTTPError as err:
-                if err.response.status_code == 401:
-                    raise FatalError('Unauthorized error, check your username and password')
-                if err.response.status_code != 403:
-                    raise err
-                _pypi_register(pypi_conf['user'], passwd, pypi_conf['url'])
-            else:
-                break
-
-
-def _get_pkg_roles(url, name):
-
-    client = xmlrpc.client.ServerProxy(url)
-    return dict(client.package_roles(name))
-
-
-def _pypi_register(user, passwd, repo):
-
-    dist = run_setup('setup.py', stop_after='init')
-
-    reg = register(dist)
-
-    reg.username = user
-    reg.password = passwd
-    reg.repository = repo
-    reg.has_config = True
-    reg.realm = 'pypi'
-
-    reg.send_metadata()

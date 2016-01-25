@@ -12,6 +12,8 @@ from pathlib import PurePath, Path
 
 import pytest
 
+from sarge import run
+
 
 @pytest.fixture
 def reader(request):
@@ -51,6 +53,34 @@ def get_open_port():
         port = s.getsockname()[1]
         s.close()
         return port
+
+
+@pytest.fixture
+def empty_dir(request):
+    tempdir = tempfile.TemporaryDirectory()
+
+    def fin():
+        tempdir.cleanup()
+    request.addfinalizer(fin)
+
+    return Path(tempdir.name)
+
+@pytest.fixture
+def dir_with_file(empty_dir):
+    readme = empty_dir / 'readme.txt'
+    with readme.open('w') as f:
+        f.write('1')
+    return empty_dir
+
+
+@pytest.fixture
+def git_dir(dir_with_file):
+    run('git init', cwd=str(dir_with_file))
+    run('git config user.email "you@example.com"', cwd=str(dir_with_file))
+    run('git config user.name "You"', cwd=str(dir_with_file))
+    run('git add .', cwd=str(dir_with_file))
+    run('git commit -m "Initial commit"', cwd=str(dir_with_file))
+    return dir_with_file
 
 
 @pytest.fixture

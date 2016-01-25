@@ -15,13 +15,15 @@ from itertools import islice
 #import yaml
 import ruamel.yaml as yaml
 import sarge
+
 from git import Repo
-import git.exc
+from git.exc import InvalidGitRepositoryError
 
 from distlib.version import NormalizedVersion
 
 from .pypi import pypi_upload
 from .exceptions import FatalError
+from .git import checkout_tag, git_push
 
 
 @lru_cache()
@@ -152,26 +154,9 @@ def setuptools_file_finder(dirname):
         yield from (item for item in repo.untracked_files
                     if item.startswith('src'))
 
-    except git.exc.InvalidGitRepositoryError:
+    except InvalidGitRepositoryError:
         distutils.log.warn('warning: not a valid git repository, '
                            'autopilot file_finder not used')
-
-
-def init_repo(path, **kwargs):
-    repo = Repo.init(str(path))
-    repo.index.add(repo.untracked_files)
-
-    cw = repo.config_writer()
-    cw.set_value('user', 'name', kwargs.get('user_name', ''))
-    cw.set_value('user', 'email', kwargs.get('user_email', ''))
-    cw.release()
-
-    if kwargs.get('initial_commit'):
-        print('Do initial commit...')
-        repo.index.commit('Initial commit')
-    else:
-        print('Next step:')
-        print('git commit -m "Initial commit"')
 
 
 def get_data_dir():
@@ -255,25 +240,6 @@ def get_dist_metadata():
 
     meta = dist.metadata
     return {'project_name': meta.name, 'current_version': meta.version}
-
-
-def is_repo_clean(repo_path=None, master=True):
-    try:
-        path = repo_path if repo_path else os.getcwd()
-        repo = Repo(path)
-    except git.exc.InvalidGitRepositoryError:
-        raise FatalError('ERROR: No git repository found at "{}"'.format(path))
-
-    if master and repo.active_branch.name != 'master':
-        raise FatalError('ERROR: Usually your active branch should be master'
-                         ' before you do a new release.\n'
-                         'If you are sure you want to do a release from this'
-                         ' branch, use the "--no-master" flag:\n\n'
-                         'ap release --no-master\n')
-
-    if repo.is_dirty():
-        raise FatalError('ERROR: Your working tree contains modifications'
-                         ' which have not been committed')
 
 
 def get_next_versions(version):
@@ -402,38 +368,10 @@ def release(project_name, project_dir, tmp_dir, release_version, next_dev_versio
     repo.index.commit('Back to development')
 
     if extra_config['git_push']:
-        _git_push(repo, release_version)
+        git_push(repo, release_version)
 
     pypi = extra_config['upload_to_pypi'].lower()
     if pypi != 'nope':
         pypi_servers = {k.lower(): v for k ,v in pypi_servers.items()}
         with checkout_tag(repo, release_version):
             pypi_upload(pypi_conf=pypi_servers[pypi])
-
-
-@contextmanager
-def checkout_tag(repo, tag):
-    branch = repo.active_branch.name
-    repo.git.checkout(tag)
-    try:
-        yield
-    finally:
-        repo.git.checkout(branch)
-
-
-def _git_push(repo, last_tag):
-    try:
-        p = sarge.run('git push --follow-tags')
-        #sarge.run('git push --tags')
-        p.wait()
-        if p.returncode != 0:
-            raise Exception('Git error')
-    except:
-        # Other way to get the last tag:
-        # last_tag = sorted(repo.tags, key=lambda t: t.commit.committed_date)[-1].name
-        repo.delete_tag(last_tag)
-        # git reset --hard
-        repo.head.reset('HEAD~2', index=True, working_tree=True)
-
-        raise FatalError(
-            'Error pushing changes to remote. Abort release and undo changes.')

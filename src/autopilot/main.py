@@ -14,6 +14,7 @@ import sarge
 from . import render
 from .ui import new_project_ui, release_ui
 from . import utils
+from . import git
 
 @click.group()
 def cli():
@@ -38,7 +39,7 @@ def new(project_name):
         print('New project options:')
         pprint.pprint(values)
         project_dir = render.render_project(**values)
-        utils.init_repo(project_dir, **values)
+        git.init_repo(project_dir, **values)
     else:
         print(values)
 
@@ -53,7 +54,7 @@ def release(no_master):
     except:
         print("Warning: Unable to set locale.  Expect encoding problems.")
 
-    utils.is_repo_clean(master=(not no_master))
+    git.is_repo_clean(master=(not no_master))
 
     config = utils.get_config()
     config.update(utils.get_dist_metadata())

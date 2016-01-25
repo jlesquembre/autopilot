@@ -15,7 +15,7 @@ from itertools import islice
 #import yaml
 import ruamel.yaml as yaml
 import sarge
-from git import Repo, Blob
+from git import Repo
 import git.exc
 
 from distlib.version import NormalizedVersion

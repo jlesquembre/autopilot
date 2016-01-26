@@ -1,5 +1,6 @@
 import pytest
 
+from git import Repo
 from sarge import capture_stdout, run
 
 from autopilot import git
@@ -68,3 +69,21 @@ def test_is_repo_clean_no_master(git_dir):
     assert 'branch should be master' in str(excinfo.value)
 
     assert git.is_repo_clean(repo_path=str(git_dir), master=False) == None
+
+
+def test_git_checkout_tag(git_dir):
+
+    run('git tag v1', cwd=git_dir.as_posix())
+
+    new_file = git_dir / 'new_file.txt'
+    with new_file.open('w') as f:
+        f.write('Some text')
+    run('git add {}'.format(new_file), cwd=git_dir.as_posix())
+    run('git commit -m "message"', cwd=git_dir.as_posix())
+
+    assert new_file.exists() == True
+
+    with git.checkout_tag(Repo(git_dir.as_posix()), 'v1'):
+        assert new_file.exists() == False
+
+    assert new_file.exists() == True

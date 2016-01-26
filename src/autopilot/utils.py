@@ -337,7 +337,7 @@ def update_version_file(original, dest_dir, version, project_name, release=True)
 
 def release(project_name, project_dir, tmp_dir, release_version, next_dev_version, pypi_servers, **extra_config):
 
-    # Update changelog
+    # Update changelog and version
 
     changelog_path = project_dir /'CHANGES.rst'
     version_path = project_dir / 'src' / project_name / '__init__.py'
@@ -348,6 +348,8 @@ def release(project_name, project_dir, tmp_dir, release_version, next_dev_versio
 
     shutil.copyfile(new_changelog, changelog_path.as_posix())
     shutil.copyfile(new_version, version_path.as_posix())
+
+    # Create relase commit and tag
 
     repo = Repo(project_dir.as_posix())
     paths = [p.as_posix() for p in (changelog_path, version_path)]

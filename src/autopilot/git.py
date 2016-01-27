@@ -3,9 +3,10 @@ import os
 from contextlib import contextmanager
 
 import git.exc
-from git import Repo, Blob
+from git import Repo
 
 from .exceptions import FatalError
+
 
 def init_repo(path, **kwargs):
     repo = Repo.init(str(path))
@@ -55,11 +56,7 @@ def checkout_tag(repo, tag):
 
 def git_push(repo, last_tag):
     try:
-        p = sarge.run('git push --follow-tags')
-        #sarge.run('git push --tags')
-        p.wait()
-        if p.returncode != 0:
-            raise Exception('Git error')
+        repo.remote().push(['refs/heads/*', 'refs/tags/*'])
     except:
         # Other way to get the last tag:
         # last_tag = sorted(repo.tags, key=lambda t: t.commit.committed_date)[-1].name

@@ -1,14 +1,15 @@
 import os
 import subprocess
 import tempfile
-import socket
 import shutil
+import http.client
 
 from io import StringIO
 from urllib.request import urlopen
 from urllib.error import URLError
 from unittest.mock import MagicMock
 from pathlib import PurePath, Path
+from random import randint
 
 import pytest
 
@@ -46,15 +47,6 @@ def writer():
     return mock
 
 
-def get_open_port():
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('',0))
-        s.listen(1)
-        port = s.getsockname()[1]
-        s.close()
-        return port
-
-
 @pytest.fixture
 def empty_dir(request):
     tempdir = tempfile.TemporaryDirectory()
@@ -64,6 +56,7 @@ def empty_dir(request):
     request.addfinalizer(fin)
 
     return Path(tempdir.name)
+
 
 @pytest.fixture
 def dir_with_file(empty_dir):
@@ -86,11 +79,13 @@ def git_dir(dir_with_file):
 @pytest.fixture
 def pypi_server(request):
     tempdir = tempfile.TemporaryDirectory(prefix='pypi_index_')
-    port = get_open_port()
-    server_url = 'http://localhost:{}'.format(port)
     sink = open(os.devnull, 'w')
-    cmd = ['pypi-server', '-p', str(port), '-P', '.', '-a','.', tempdir.name]
+
+    port = str(randint(10000, 65535))
+    server_url = 'http://localhost:{}'.format(port)
+    cmd = ['pypi-server', '-p', port, '-P', '.', '-a', '.', tempdir.name]
     server = subprocess.Popen(cmd, stdout=sink, stderr=sink)
+
     # wait for the server to start up
     response = None
     while response is None:
@@ -98,6 +93,12 @@ def pypi_server(request):
             response = urlopen(server_url)
         except URLError:
             pass
+        except http.client.BadStatusLine:
+            # see https://github.com/shazow/urllib3/issues/779
+            port = str(randint(10000, 65535))
+            server_url = 'http://localhost:{}'.format(port)
+            cmd = ['pypi-server', '-p', port, '-P', '.', '-a', '.', tempdir.name]
+            server = subprocess.Popen(cmd, stdout=sink, stderr=sink)
 
     def fin():
         if server and server.returncode is None:

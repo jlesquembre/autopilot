@@ -2,7 +2,7 @@ Changelog for autopilot
 =======================
 
 
-0.2.1 (unreleased)
+0.2.1 (2016-01-31)
 ------------------
 
 - Remove twine dependency, now we use distlib to upload the packages

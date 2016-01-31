@@ -2,6 +2,12 @@ Changelog for autopilot
 =======================
 
 
+0.2.2 (unreleased)
+------------------
+
+- Nothing changed yet
+
+
 0.2.1 (2016-01-31)
 ------------------
 

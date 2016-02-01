@@ -1,24 +1,17 @@
 import os
 import sys
 import logging
-import json
 import re
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
-#from contextlib import suppress
-
-import requests
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from sarge import run, Capture
-
 from . import utils
 
 
-#log = logging.getLogger(__name__)
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 PRIVATE_LICENSE_NAME = 'Other/Proprietary License'

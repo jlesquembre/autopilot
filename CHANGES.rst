@@ -2,7 +2,7 @@ Changelog for autopilot
 =======================
 
 
-0.2.2 (unreleased)
+0.2.2 (2016-02-02)
 ------------------
 
 - Fix, unused import was raising an exception

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; autopilot 0.0.1 documentation</title>
+  <title>Introduction &mdash; autopilot 0.2.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="autopilot 0.0.1 documentation" href="index.html"/>
+    <link rel="top" title="autopilot 0.2.2 documentation" href="index.html"/>
         <link rel="next" title="Choices" href="choices.html"/>
         <link rel="prev" title="autopilot - Make Python packaging easy" href="index.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.2.2
               </div>
             
           
@@ -88,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-handling">Version handling</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="choices.html">Choices</a></li>
@@ -150,19 +151,19 @@
 </div>
 <div class="section" id="basic-usage">
 <h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
-<p>Autopilot provides 2 commands, <cite>new</cite> and <cite>release</cite>. You can call them from the
-command line:</p>
+<p>Autopilot provides 2 commands, <code class="docutils literal"><span class="pre">new</span></code> and <code class="docutils literal"><span class="pre">release</span></code>. You can call them from
+the command line:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ ap new
 $ ap release
 </pre></div>
 </div>
-<p><cite>ap new</cite> command creates a new project. You can pass optionally the new project
-name:</p>
+<p><code class="docutils literal"><span class="pre">ap</span> <span class="pre">new</span></code> command creates a new project. You can pass optionally the new
+project name:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ ap new cool-project
 </pre></div>
 </div>
-<p><cite>ap release</cite> creates a new release for a project. If you want to upload it to a
-PyPI server, you need to create a configuration file to tell autopilot which
+<p><code class="docutils literal"><span class="pre">ap</span> <span class="pre">release</span></code> creates a new release for a project. If you want to upload it to
+a PyPI server, you need to create a configuration file to tell autopilot which
 are your username and password. See next section for more info.</p>
 </div>
 <div class="section" id="configuration">
@@ -170,66 +171,89 @@ are your username and password. See next section for more info.</p>
 <p>We choose the yaml format for the configuration. This is the default
 configuration file:</p>
 <blockquote>
-<div><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">author</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>          <span class="c1"># Take it from git config if empty</span>
-  <span class="l-Scalar-Plain">email</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>         <span class="c1"># Take it from git config if empty</span>
+<div><div class="highlight-yaml"><div class="highlight"><pre><span class="l l-Scalar l-Scalar-Plain">author</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>          <span class="c1"># Take it from git config if empty</span>
+  <span class="l l-Scalar l-Scalar-Plain">email</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>         <span class="c1"># Take it from git config if empty</span>
 
-<span class="l-Scalar-Plain">new_project</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">default_dir</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>   <span class="c1"># Uses current working directory</span>
-  <span class="l-Scalar-Plain">license</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">gplv2</span>
-  <span class="l-Scalar-Plain">commit</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>      <span class="c1"># Do the initial commit?</span>
+<span class="l l-Scalar l-Scalar-Plain">new_project</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">default_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>   <span class="c1"># Uses current working directory</span>
+  <span class="l l-Scalar l-Scalar-Plain">license</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gplv2</span>
+  <span class="l l-Scalar l-Scalar-Plain">commit</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>      <span class="c1"># Do the initial commit?</span>
 
-<span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>          <span class="c1"># Use $EDITOR, fallback to vim</span>
+<span class="l l-Scalar l-Scalar-Plain">editor</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>          <span class="c1"># Use $EDITOR, fallback to vim</span>
 
-<span class="l-Scalar-Plain">release</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">upload</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">PyPI</span>
-  <span class="l-Scalar-Plain">push</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+<span class="l l-Scalar l-Scalar-Plain">release</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">upload</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">PyPI</span>
+  <span class="l l-Scalar l-Scalar-Plain">push</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="l-Scalar-Plain">pypi_servers</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">PyPI</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l-Scalar-Plain">passeval</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>    <span class="c1"># Executable command</span>
-    <span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="s">&#39;https://pypi.python.org/pypi&#39;</span>
-  <span class="l-Scalar-Plain">PyPI Test</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>
-    <span class="l-Scalar-Plain">passeval</span><span class="p-Indicator">:</span> <span class="s">&#39;&#39;</span>    <span class="c1"># Executable command</span>
-    <span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="s">&#39;https://testpypi.python.org/pypi&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">pypi_servers</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">PyPI</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">user</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">passeval</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>    <span class="c1"># Executable command</span>
+    <span class="l l-Scalar l-Scalar-Plain">url</span><span class="p p-Indicator">:</span> <span class="s">&#39;https://pypi.python.org/pypi&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">PyPI Test</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">user</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">passeval</span><span class="p p-Indicator">:</span> <span class="s">&#39;&#39;</span>    <span class="c1"># Executable command</span>
+    <span class="l l-Scalar l-Scalar-Plain">url</span><span class="p p-Indicator">:</span> <span class="s">&#39;https://testpypi.python.org/pypi&#39;</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>For some options, if they are empty, autopilot will try to fill the data with
 information from your system, see comments in the default configuration file.</p>
 <p>It is possible to override the default configuration. To do it, create a file
-at <cite>XDG_CONFIG_HOME/autopilot/config.yml</cite> (or <cite>~/.config/autopilot/config.yml</cite>
-if <cite>XDG_CONFIG_HOME</cite> is not defined). You can override just some of the
+at <code class="docutils literal"><span class="pre">XDG_CONFIG_HOME/autopilot/config.yml</span></code> (or <code class="docutils literal"><span class="pre">~/.config/autopilot/config.yml</span></code>
+if <code class="docutils literal"><span class="pre">XDG_CONFIG_HOME</span></code> is not defined). You can override just some of the
 options.  For every option, the logic is to look for the option in the user
-config file, if it&#8217;s not there, search in autopilot default configuration, and
-if the option has an empty value, try to get the value from the system.</p>
+configuration file, if it&#8217;s not there, search in autopilot default
+configuration, and if the option has an empty value, try to get the value from
+the system.</p>
 <p>An example of a custom configuration file:</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">new_project</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">license</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mit</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l l-Scalar l-Scalar-Plain">new_project</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">license</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mit</span>
 
-<span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vim -R</span>
+<span class="l l-Scalar l-Scalar-Plain">editor</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">vim -R</span>
 
-<span class="l-Scalar-Plain">release</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">upload</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nope</span>
-  <span class="l-Scalar-Plain">push</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
+<span class="l l-Scalar l-Scalar-Plain">release</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">upload</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nope</span>
+  <span class="l l-Scalar l-Scalar-Plain">push</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="l-Scalar-Plain">pypi_servers</span><span class="p-Indicator">:</span>
+<span class="l l-Scalar l-Scalar-Plain">pypi_servers</span><span class="p p-Indicator">:</span>
 
-  <span class="l-Scalar-Plain">pypi</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_pypi_user</span>
-    <span class="l-Scalar-Plain">passeval</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pass pypi</span>
+  <span class="l l-Scalar l-Scalar-Plain">pypi</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">user</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">my_pypi_user</span>
+    <span class="l l-Scalar l-Scalar-Plain">passeval</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">pass pypi</span>
 
-  <span class="l-Scalar-Plain">local devpi</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">devpi_user</span>
-    <span class="l-Scalar-Plain">passeval</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pass devpi_local</span>
-    <span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="s">&#39;http://localhost:8080&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">local devpi</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">user</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">devpi_user</span>
+    <span class="l l-Scalar l-Scalar-Plain">passeval</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">pass devpi_local</span>
+    <span class="l l-Scalar l-Scalar-Plain">url</span><span class="p p-Indicator">:</span> <span class="s">&#39;http://localhost:8080&#39;</span>
 </pre></div>
 </div>
-<p>As you see, is possible to add more servers to <cite>pypi_servers</cite>. In this example,
-a new PyPI server (<cite>local devpi</cite>) would be added to the list of options on the
-UI.</p>
+<p>As you see, is possible to add more servers to <code class="docutils literal"><span class="pre">pypi_servers</span></code>. In this
+example, a new PyPI server (<code class="docutils literal"><span class="pre">local</span> <span class="pre">devpi</span></code>) would be added to the list of
+options on the UI.</p>
+</div>
+<div class="section" id="version-handling">
+<h2>Version handling<a class="headerlink" href="#version-handling" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.python.org/dev/peps/pep-0396/#specification">According to PEP 396</a>, the version should
+be available in the <code class="docutils literal"><span class="pre">__version__</span></code> attribute, should be a string, and have
+only one source and all the others should be derived from it.</p>
+<p>When you do a new release, with the <code class="docutils literal"><span class="pre">ap</span> <span class="pre">release</span></code> command, autopilot will
+generate two new version numbers, the number for the release you are doing, and
+the next development version.</p>
+<p>For the new release number, autopilot just remove the pre-release part from the
+version number.  For example, if your current version is <code class="docutils literal"><span class="pre">1.0.0a1</span></code> or
+<code class="docutils literal"><span class="pre">1.0.0.dev0</span></code>, the next version number will be <code class="docutils literal"><span class="pre">1.0.0</span></code>.</p>
+<p>For the next development version number, autopilot just increments the minor
+number of the release and adds a <cite>.dev0</cite>. For example, if you are going to
+release version <code class="docutils literal"><span class="pre">1.0.0</span></code>, your next development version will be
+<code class="docutils literal"><span class="pre">1.0.1.dev0</span></code>.</p>
+<p>The new version numbers generated by autopilot are just a suggestion, you can
+always change the version numbers through the user interface. If you update the
+version number manually, autopilot will check that the number is a valid number
+<a class="reference external" href="https://www.python.org/dev/peps/pep-0440/">according to PEP 440</a></p>
+<p>Also notice that when you update your release version number, autopilot will
+automatically update the next development version number.</p>
 </div>
 </div>
 
@@ -252,7 +276,7 @@ UI.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, José Luis Lafuente.
+        &copy; Copyright 2016, José Luis Lafuente.
 
     </p>
   </div>
@@ -274,7 +298,7 @@ UI.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.1',
+            VERSION:'0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

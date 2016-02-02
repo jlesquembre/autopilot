@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Choices &mdash; autopilot 0.0.1 documentation</title>
+  <title>Choices &mdash; autopilot 0.2.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="autopilot 0.0.1 documentation" href="index.html"/>
+    <link rel="top" title="autopilot 0.2.2 documentation" href="index.html"/>
         <link rel="next" title="Changelog for autopilot" href="changelog.html"/>
         <link rel="prev" title="Introduction" href="intro.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.2.2
               </div>
             
           
@@ -90,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#git-workflow">Git workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changelog">Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#files-to-distribute">Files to distribute</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog for autopilot</a></li>
@@ -209,7 +210,14 @@ For coverage we do a <cite>pip install -e</cite>, but test with a normal pip ins
 </div>
 <div class="section" id="project-version">
 <h2>Project version<a class="headerlink" href="#project-version" title="Permalink to this headline">¶</a></h2>
-<p>In your <cite>src/${project_name}/__init__.py</cite> file. We can extract it later using regex</p>
+<p>In your <code class="docutils literal"><span class="pre">src/${project_name}/__init__.py</span></code> file. We can extract it later using
+regex on our <cite>setup.py</cite>. But it is also possible to get the version number in
+our python code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autopilot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">autopilot</span><span class="o">.</span><span class="n">__version__</span>
+<span class="go">&#39;0.2.1&#39;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="git-workflow">
 <h2>Git workflow<a class="headerlink" href="#git-workflow" title="Permalink to this headline">¶</a></h2>
@@ -224,14 +232,14 @@ doesn&#8217;t add a license file (well, it creates a <cite>LICENSE</cite> file, 
 to the <a class="reference external" href="http://www.gnu.org/licenses/license-list.en.html#NoLicense">GNU licenses website</a>). This license
 also adds a classifier to your package, &#8220;Private :: Do Not Upload&#8221;.  PyPI will
 refuse to accept packages with unknown classifiers, hence we want to use it for
-private packages to protect ourselfs from a mistake. Anyways, if we have a
-private <a class="reference external" href="http://doc.devpi.net/latest/">devpi</a> we still can uplaod the package there.</p>
+private packages to protect ourselves from a mistake. Anyways, if we have a
+private <a class="reference external" href="http://doc.devpi.net/latest/">devpi</a> we still can upload the package there.</p>
 <p>If you want to add a new license to the list of licenses, put the license file
 at <cite>$XDG_CONFIG_HOME/autopilot/licenses</cite> directory (usually
 <cite>~/.config/autopilot/licenses</cite>). Filename would be used to generate the
 selectable list of licenses.  By default, user licenses are private, and the
 <cite>Private</cite> classifier would be added to your <cite>setup.py</cite>. If you want to change
-this behaviour, the first line of your license must be like this:</p>
+this behavior, the first line of your license must be like this:</p>
 <div class="highlight-text"><div class="highlight"><pre># pypi license: License name
 </pre></div>
 </div>
@@ -250,6 +258,19 @@ to open the editor in read-only mode. If you use vim, you can set the editor to
 <div class="highlight-python"><div class="highlight"><pre>editor: vim -R
 </pre></div>
 </div>
+</div>
+<div class="section" id="files-to-distribute">
+<h2>Files to distribute<a class="headerlink" href="#files-to-distribute" title="Permalink to this headline">¶</a></h2>
+<p>With autopilot you can avoid to write and maintain a <code class="docutils literal"><span class="pre">MANIFEST.in</span></code> file. All
+files under your <code class="docutils literal"><span class="pre">src</span></code> directory would be included in the package, unless you
+exclude them using a <code class="docutils literal"><span class="pre">gitignore</span></code> file. Also <code class="docutils literal"><span class="pre">README.txt</span></code> (or <code class="docutils literal"><span class="pre">README</span></code>),
+<code class="docutils literal"><span class="pre">setup.py</span></code> (or whatever you called your setup script), and <code class="docutils literal"><span class="pre">setup.cfg</span></code>
+files are included by default by <code class="docutils literal"><span class="pre">setuptools</span></code> ( see <a class="reference external" href="https://docs.python.org/3/distutils/sourcedist.html#specifying-the-files-to-distribute">distutils docs</a>)</p>
+<p>Autopilot also adds <code class="docutils literal"><span class="pre">CHANGELOG.rst</span></code>, <code class="docutils literal"><span class="pre">LICENSE</span></code> and <code class="docutils literal"><span class="pre">.gitignore</span></code> files to
+the package.</p>
+<p>Take a look to <a class="reference external" href="https://pythonhosted.org/setuptools/setuptools.html#adding-support-for-other-revision-control-systems">setuptools documentation</a>
+if you want to know how autopilot is able to modify the files to include in the
+package.</p>
 </div>
 </div>
 
@@ -272,7 +293,7 @@ to open the editor in read-only mode. If you use vim, you can set the editor to
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, José Luis Lafuente.
+        &copy; Copyright 2016, José Luis Lafuente.
 
     </p>
   </div>
@@ -294,7 +315,7 @@ to open the editor in read-only mode. If you use vim, you can set the editor to
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.1',
+            VERSION:'0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

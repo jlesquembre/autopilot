@@ -69,7 +69,15 @@ And the following files:
 Project version
 ---------------
 
-In your `src/${project_name}/__init__.py` file. We can extract it later using regex
+In your ``src/${project_name}/__init__.py`` file. We can extract it later using
+regex on our `setup.py`. But it is also possible to get the version number in
+our python code:
+
+::
+
+    >>> import autopilot
+    >>> autopilot.__version__
+    '0.2.1'
 
 
 
@@ -90,8 +98,8 @@ to the `GNU licenses website
 <http://www.gnu.org/licenses/license-list.en.html#NoLicense>`_). This license
 also adds a classifier to your package, "Private :: Do Not Upload".  PyPI will
 refuse to accept packages with unknown classifiers, hence we want to use it for
-private packages to protect ourselfs from a mistake. Anyways, if we have a
-private devpi_ we still can uplaod the package there.
+private packages to protect ourselves from a mistake. Anyways, if we have a
+private devpi_ we still can upload the package there.
 
 
 If you want to add a new license to the list of licenses, put the license file
@@ -99,7 +107,7 @@ at `$XDG_CONFIG_HOME/autopilot/licenses` directory (usually
 `~/.config/autopilot/licenses`). Filename would be used to generate the
 selectable list of licenses.  By default, user licenses are private, and the
 `Private` classifier would be added to your `setup.py`. If you want to change
-this behaviour, the first line of your license must be like this:
+this behavior, the first line of your license must be like this:
 
 .. code-block:: text
 
@@ -127,3 +135,23 @@ to open the editor in read-only mode. If you use vim, you can set the editor to
     editor: vim -R
 
 .. _devpi: http://doc.devpi.net/latest/
+
+
+Files to distribute
+-------------------
+
+With autopilot you can avoid to write and maintain a ``MANIFEST.in`` file. All
+files under your ``src`` directory would be included in the package, unless you
+exclude them using a ``gitignore`` file. Also ``README.txt`` (or ``README``),
+``setup.py`` (or whatever you called your setup script), and ``setup.cfg``
+files are included by default by ``setuptools`` ( see `distutils docs
+<https://docs.python.org/3/distutils/sourcedist.html#specifying-the-files-to-distribute>`_)
+
+
+Autopilot also adds ``CHANGELOG.rst``, ``LICENSE`` and ``.gitignore`` files to
+the package.
+
+Take a look to `setuptools documentation
+<https://pythonhosted.org/setuptools/setuptools.html#adding-support-for-other-revision-control-systems>`_
+if you want to know how autopilot is able to modify the files to include in the
+package.

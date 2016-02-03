@@ -15,8 +15,10 @@ from . import render
 from .ui import new_project_ui, release_ui
 from . import utils
 from . import git
+from . import __version__
 
 @click.group()
+@click.version_option(__version__, prog_name='autopilot')
 def cli():
     pass
 

@@ -5,7 +5,8 @@ Changelog for autopilot
 0.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet
+- Add release type option to `release` command. Possible values are patch,
+  minor and major. The next version numbers are generated based on this option
 
 
 0.2.2 (2016-02-02)

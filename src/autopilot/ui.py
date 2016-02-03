@@ -99,7 +99,7 @@ def handle_input(win, scroll_mode=True):
 def _update_next_version(widget):
     def call(release_version):
         try:
-            widget.text = utils.get_next_dev_version(release_version)
+            widget.text = utils.get_next_version(release_version, dev=True)
             widget.refresh()
         except:  # If release_version in not valid, don't update dev version
             pass
@@ -628,7 +628,8 @@ def release_ui(config):
 
     with CursesManager() as ui:
 
-        version, next_version = utils.get_next_versions(config['current_version'])
+        version = utils.get_next_version(config['current_version'], release_type=config['release_type'])
+        next_version = utils.get_next_version(version, dev=True)
 
         _box = Box(label=TermStr('Project: ', Color.bold, config['project_name']))
 

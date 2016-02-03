@@ -45,8 +45,12 @@ def new(project_name):
 
 
 @cli.command()
-@click.option('--no-master', is_flag=True, default=False)
-def release(no_master):
+@click.option('--no-master', is_flag=True, default=False,
+              help='By default, releases are allowed only from `master` branch. '
+                   'This option disables that check')
+@click.option('--type', 'release_type', show_default=True, help='Release type',
+              type=click.Choice(['major', 'minor', 'patch']), default='patch')
+def release(no_master, release_type):
     '''Releases a new version'''
 
     try:
@@ -59,7 +63,7 @@ def release(no_master):
     config = utils.get_config()
     config.update(utils.get_dist_metadata())
     config['project_dir'] = Path(os.getcwd())
-
+    config['release_type'] = release_type
 
     with tempfile.TemporaryDirectory(prefix='ap_tmp') as tmp_dir:
         config['tmp_dir'] = tmp_dir

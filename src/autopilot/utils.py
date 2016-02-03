@@ -242,20 +242,25 @@ def get_dist_metadata():
     return {'project_name': meta.name, 'current_version': meta.version}
 
 
-def get_next_versions(version):
-    version = get_next_version(version)
-    return version, get_next_dev_version(version)
+def get_next_version(version, dev=False, release_type='patch'):
 
+    norm_version = NormalizedVersion(version)
+    version = norm_version._release_clause # returns a tuple without the suffix.
+                                           # e.g. 1.0.0 and 1.0.0.dev0 both returns (1, 0, 0)
 
-def get_next_version(version):
-    version = NormalizedVersion(version)._release_clause
-    return '.'.join(map(str, version))
+    if release_type == 'patch':
+        if not norm_version.is_prerelease:  # if pre-release and patch, just remove the suffix
+            version = version[:2] + (version[-1] + 1,)
+    elif release_type == 'minor':
+        version = (version[0], version[1] + 1, 0)
+    elif release_type == 'major':
+        version = (version[0] + 1, 0, 0)
 
+    version = '.'.join(map(str, version))
 
-def get_next_dev_version(version):
-    version = NormalizedVersion(version)._release_clause
-    version = version[:-1] + (version[-1] + 1,)
-    return '{}.dev0'.format('.'.join(map(str, version)))
+    if dev:
+        version = '{}.dev0'.format(version)
+    return version
 
 
 def update_changelog(original, dest_dir, version, release=True):

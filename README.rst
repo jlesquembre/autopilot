@@ -17,12 +17,12 @@ Screenshots
 
 - Create new project. Command `ap new` :
 
-    .. image:: https://github.com/jlesquembre/autopilot/blob/master/docs/source/images/new_project.png
+    .. image:: https://raw.githubusercontent.com/jlesquembre/autopilot/master/docs/source/images/new_project.png
 
 
 - Create new release. Command `ap release` :
 
-    .. image:: https://github.com/jlesquembre/autopilot/blob/master/docs/source/images/new_release.png
+    .. image:: https://raw.githubusercontent.com/jlesquembre/autopilot/master/docs/source/images/new_release.png
 
 
 Status

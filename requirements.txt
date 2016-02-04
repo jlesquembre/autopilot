@@ -5,6 +5,7 @@ Sphinx
 sphinx_rtd_theme
 sphinxcontrib-napoleon
 sphinxcontrib-spelling
+sphinxcontrib-programoutput
 pyenchant
 tox
 devpi-client

@@ -119,3 +119,20 @@ version number manually, autopilot will check that the number is a valid number
 
 Also notice that when you update your release version number, autopilot will
 automatically update the next development version number.
+
+
+Command line options
+--------------------
+
+You can append `--help` to any command to get a description of the command.
+
+.. command-output:: ap --help
+
+.. command-output:: ap new --help
+
+.. command-output:: ap release --help
+
+
+The ``--type`` option is used to generate the next version number, but you can
+always modify this number on the ncurses interface, before the new release is
+created.

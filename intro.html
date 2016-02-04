@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; autopilot 0.2.2 documentation</title>
+  <title>Introduction &mdash; autopilot 0.3.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="autopilot 0.2.2 documentation" href="index.html"/>
+    <link rel="top" title="autopilot 0.3.0 documentation" href="index.html"/>
         <link rel="next" title="Choices" href="choices.html"/>
         <link rel="prev" title="autopilot - Make Python packaging easy" href="index.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.2.2
+                0.3.0
               </div>
             
           
@@ -89,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-handling">Version handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-options">Command line options</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="choices.html">Choices</a></li>
@@ -255,6 +256,46 @@ version number manually, autopilot will check that the number is a valid number
 <p>Also notice that when you update your release version number, autopilot will
 automatically update the next development version number.</p>
 </div>
+<div class="section" id="command-line-options">
+<h2>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+<p>You can append <cite>&#8211;help</cite> to any command to get a description of the command.</p>
+<div class="highlight-text"><div class="highlight"><pre>$ ap --help
+Usage: ap [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  new      Creates a new project
+  release  Releases a new version
+</pre></div>
+</div>
+<div class="highlight-text"><div class="highlight"><pre>$ ap new --help
+Usage: ap new [OPTIONS] [PROJECT_NAME]
+
+  Creates a new project
+
+Options:
+  --help  Show this message and exit.
+</pre></div>
+</div>
+<div class="highlight-text"><div class="highlight"><pre>$ ap release --help
+Usage: ap release [OPTIONS]
+
+  Releases a new version
+
+Options:
+  --no-master                 By default, releases are allowed only from
+                              `master` branch. This option disables that check
+  --type [major|minor|patch]  Release type  [default: patch]
+  --help                      Show this message and exit.
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">--type</span></code> option is used to generate the next version number, but you can
+always modify this number on the ncurses interface, before the new release is
+created.</p>
+</div>
 </div>
 
 
@@ -298,7 +339,7 @@ automatically update the next development version number.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2.2',
+            VERSION:'0.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

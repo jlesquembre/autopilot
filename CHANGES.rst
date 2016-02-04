@@ -2,7 +2,7 @@ Changelog for autopilot
 =======================
 
 
-0.2.3 (unreleased)
+0.3.0 (2016-02-04)
 ------------------
 
 - Add `--version` option, which prints out the current version number

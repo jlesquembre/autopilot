@@ -11,7 +11,11 @@ const BrowserWindow = electron.BrowserWindow;
 
 
 if (process.env.NODE_ENV === 'development') {
-  require('electron-debug')();
+  //require('electron-debug')();
+  require('electron-debug')({
+    showDevTools: true
+  });
+
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -28,12 +32,12 @@ function createWindow () {
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.openDevTools();
-    electron.globalShortcut.register('F5', function() {
-      mainWindow.restart();
-    });
-  }
+  //if (process.env.NODE_ENV === 'development') {
+  //  mainWindow.openDevTools();
+  //  electron.globalShortcut.register('F5', function() {
+  //    mainWindow.restart();
+  //  });
+  //}
 
 
   electron.globalShortcut.register('Control+Q', function() {

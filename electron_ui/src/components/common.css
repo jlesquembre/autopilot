@@ -1,0 +1,72 @@
+
+@value labelActiveColor: #5264AE;
+@value labelInactiveColor: #999;
+@value inputWidth: 300px;
+
+
+.labelCommon{
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  transition:0.2s ease all;
+  box-sizing: border-box;
+}
+
+.labelActive{
+  composes: labelCommon;
+  top:-20px;
+  color: labelActiveColor;
+  font-size:14px;
+}
+
+
+.labelInactive{
+  composes: labelCommon;
+  top:10px;
+  color: labelInactiveColor;
+  font-size:18px;
+
+}
+
+
+.input {
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display:block;
+  width: inputWidth;
+  border:none;
+  border-bottom:1px solid #757575;
+  box-sizing: border-box;
+  outline:none;
+}
+
+
+.input:focus ~ .bar:before, .input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* BOTTOM BARS ================================= */
+.bar {
+  position:relative;
+  display:block;
+  width: inputWidth;
+}
+
+.bar:before, .bar:after	{
+  content:'';
+  height:2px;
+  width:0;
+  bottom:1px;
+  position:absolute;
+  background:#5264AE;
+  transition:0.2s ease all;
+}
+
+.bar:before {
+  left:50%;
+}
+
+.bar:after {
+  right:50%;
+}

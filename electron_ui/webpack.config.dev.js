@@ -7,7 +7,7 @@ const webpackTargetElectronRenderer = require('webpack-target-electron-renderer'
 config = {
   debug: true,
 
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: [
     //'eventsource-polyfill', // necessary for hot reloading with IE
     //'webpack-hot-middleware/client',
@@ -57,7 +57,11 @@ config = {
     {
       test: /\.css$/,
       loader: 'style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
-    }
+    },
+    //{
+    //  test: /\.sss$/,
+    //  loader: 'style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader?parser=sugarss'
+    //}
     ]
   }
 };

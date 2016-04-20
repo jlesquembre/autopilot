@@ -6,7 +6,11 @@ import styles from './index.css';
 
 import Select from './components/selector.js'
 import Input from './components/input.js'
+import InputFile from './components/inputFile.js'
 
+// Include normalize.css
+import normalize from 'normalize.css/normalize.css';
+//require('normalize.css/normalize.css');
 
 //import {restart, restartable} from 'cycle-restart';
 
@@ -28,9 +32,8 @@ function main(drivers) {
   //let [name$, email$] = ['#name', '#email'].map(id => getInputValueObservable(drivers.DOM, id) );
 
 
-  const props$ = Observable.just({options: ['X-Files', 'Fargo', 'True Detective'], initial: 'Fargo'});
-  const select = Select({DOM: drivers.DOM, props$})
-  const selectVTree$ = select.DOM;
+  const props$ = Observable.just({options: ['GPLv2', 'GPLv3', 'MIT'], initial: 'GPLv2', labelName: 'License'});
+  const licenseSelect = Select({DOM: drivers.DOM, props$})
 
 
   function makeInput(id, labelName, initialValue){
@@ -41,33 +44,32 @@ function main(drivers) {
 
   const nameInput = makeInput('name', 'User name');
   const emailInput = makeInput('email', 'User email');
-  //const projectNameInput = makeInput('project_name', 'Project name'),
+  const projectNameInput = makeInput('project_name', 'Project name');
   //const directoryInput = makeInput('directory', 'Directory'),
-  //const licenseInput = makeInput('license', 'License'),
+  const directoryInput = InputFile({DOM: drivers.DOM, props: {id: 'directory', labelName: 'Directory'} });
   //const commitInput = makeInput('commit', 'Initial commit'),
 
   return {
 
-    DOM: Observable.combineLatest(nameInput.value$, emailInput.value$, selectVTree$, select.value$, nameInput.vtree$, emailInput.vtree$,
-                                (name, email, selectVTree, selectValue, nameInputVTree, emailInputVTree) => {
+    DOM: Observable.combineLatest(nameInput.value$, emailInput.value$, projectNameInput.value$, licenseSelect.value$, directoryInput.value$,
+                                  nameInput.vtree$, emailInput.vtree$, projectNameInput.vtree$, licenseSelect.vtree$, directoryInput.vtree$,
+                                (name, email, projectName, license, directory,
+                                 nameInputVTree, emailInputVTree, projectNameInputVTree, licenseSelectVTree, directoryInputVTree) => {
 
-        return div({className: styles.container}, [
+        return div({className: styles.container}, div({className: styles.centeredItem}, [
             form([
                 nameInputVTree,
                 emailInputVTree,
-                //newInput('name', 'User name'),
-                //newInput('email', 'User email'),
-                //newInput('project_name', 'Project name'),
-                //newInput('directory', 'Directory'),
-                //newInput('license', 'License'),
-                //newInput('commit', 'Initial commit'),
-                selectVTree,
+                projectNameInputVTree,
+                //input({type:'file', webkitdirectory: true}),
+                directoryInputVTree,
+                licenseSelectVTree,
+                //initialCommitVTree,
             ]),
-            //h2(`${name} <${email}> with value ${selectValue}`)
-            h2(`${name} <${email}> with value ${selectValue}`)
-            ]);
+            h2(`${name} <${email}> with value ${license}`)
+            ]));
 
-                                }
+        }
 
     ),
 

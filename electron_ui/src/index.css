@@ -2,11 +2,29 @@
 * { box-sizing: border-box; }
 */
 
+@value inputWidth: 300px;
+
 .container {
-  font-family:'Roboto';
-  width:600px;
-  margin:30px auto 0;
-  display:block;
-  background:#FFF;
-  padding:10px 50px 50px;
+  font-family: 'Roboto';
+  /*width: inputWidth;*/
+  /*display: block;*/
+  background: #FFF;
+  /*margin: 30px auto 0;
+  padding: 10px 50px 50px;
+*/
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  /*min-height: 24em;*/
+  height: 100vh;
+}
+
+
+.centeredItem{
+  /*flex: none;
+   */
+  max-width: 50%;
+  /*width: inputWidth;*/
 }

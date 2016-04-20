@@ -2,12 +2,15 @@ var path = require('path');
 var webpack = require('webpack');
 const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 
+//var normalize = require('style!raw!normalize.css/normalize.css');
+
 
 
 config = {
   debug: true,
 
-  devtool: 'eval',
+  //devtool: 'eval',
+  devtool: 'eval-source-map',
   entry: [
     //'eventsource-polyfill', // necessary for hot reloading with IE
     //'webpack-hot-middleware/client',
@@ -40,6 +43,7 @@ config = {
       // ...
       // and if you want to compress,
       // just use css-loader option that already use cssnano under the hood
+      //require("cssnano")(),
       require("postcss-browser-reporter")(),
       require("postcss-reporter")()
     ]
@@ -56,7 +60,31 @@ config = {
     },
     {
       test: /\.css$/,
-      loader: 'style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+      //loader: 'style-loader!css-loader?minimize&modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+      loaders: ['style',
+                'css?' +
+                  //'minimize&' +
+                  'modules&' +
+                  'sourceMap&' +
+                  'importLoaders=1&' +
+                  'localIdentName=[name]__[local]___[hash:base64:5]',
+                //{ loader: 'css',
+                //    query: { minimize: 1,
+                //             modules: 1,
+                //             sourceMap: 1,
+                //             importLoaders: 1,
+                //             localIdentName: '[name]__[local]___[hash:base64:5]',
+                //    }
+                //},
+                //{ 'css': { minimize: 1,
+                //           modules: 1,
+                //           sourceMap: 1,
+                //           importLoaders: 1,
+                //           localIdentName: '[name]__[local]___[hash:base64:5]',
+                //    }
+                //},
+                'postcss'
+               ],
     },
     //{
     //  test: /\.sss$/,

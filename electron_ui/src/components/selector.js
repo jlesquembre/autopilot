@@ -28,11 +28,12 @@ function model(actions, props$){
     return Observable.combineLatest(actions.toggleSelect$.startWith(false).scan(val => !val),
                                     actions.selectOption$,
                                     props$.pluck('options'),
-                                    (showOptions, selectedOption, options) => {return {showOptions, selectedOption, options}});
+                                    props$.pluck('labelName'),
+                                    (showOptions, selectedOption, options, labelName) => {return {showOptions, selectedOption, options, labelName}});
 }
 
 function view(state$){
-    return state$.map(({showOptions, selectedOption, options}) =>
+    return state$.map(({showOptions, selectedOption, options, labelName}) =>
       div({className: styles.input_field}, [
         div({className: styles.select_wrapper}, [
             span({className: styles.caret}, '▼'),
@@ -44,7 +45,7 @@ function view(state$){
                                         [span({className: styles.dropLiSpan}, option) ] ))
             ))
         ]),
-        label({className: styles.labelActive}, 'Label name')
+        label({className: styles.labelActive}, labelName)
       ])
       );
 
@@ -73,7 +74,7 @@ function Select(sources) {
   const vtree$ = view(state$);
 
   return {
-      DOM: vtree$,
+      vtree$,
       value$: actions.selectOption$,
   }
 }

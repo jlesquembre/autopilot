@@ -1,5 +1,8 @@
 import {div, label, input, p, form, span, h2} from '@cycle/dom';
 import {Observable} from 'rx';
+//import dialog from 'dialog';
+//import {dialog} from 'electron';
+//const electron = require('electron');
 
 import i_styles from './input.css';
 import c_styles from './common.css';
@@ -7,13 +10,25 @@ let styles = {};
 Object.assign(styles, i_styles, c_styles);
 
 
+//var remote = require('remote');
+//var dialog = remote.require('electron').dialog;
+//
+//
+//
 
 function intent(DOM, id){
+    //var path = dialog.showOpenDialog({
+    //    properties: ['openDirectory']
+    //});
+    //dialog.showOpenDialog({ properties: [ 'openDirectory' ]})
     const newValue$ = DOM.select(`#${id}`).events('input').map(ev => ev.target.value);
     const focus$ = DOM.select(`#${id}`).events('focus').map(e => 'focus');
     const blur$ = DOM.select(`#${id}`).events('blur').map(e => 'blur');
 
     const isFocus$ = focus$.merge(blur$).startWith('blur').map(val => val == 'focus');
+
+    //focus$.map(e => electron.dialog.showOpenDialog({ properties: [ 'openDirectory' ]}) );
+
     return {newValue$, isFocus$};
 }
 

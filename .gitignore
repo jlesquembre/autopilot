@@ -11,3 +11,5 @@ docs/_build
 autopilot_local.yml
 .cache
 venv
+npm-debug.log
+node_modules

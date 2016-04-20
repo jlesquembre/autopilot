@@ -1,7 +1,7 @@
 
 @value labelActiveColor: #5264AE;
 @value labelInactiveColor: #999;
-@value inputWidth: 300px;
+@value inputWidth from '../index.css';
 
 
 .labelCommon{

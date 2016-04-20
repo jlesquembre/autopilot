@@ -1,5 +1,5 @@
 
-@value inputWidth from './common.css';
+@value inputWidth from '../index.css';
 
 .input_field{
   position: relative;

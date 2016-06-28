@@ -1,6 +1,6 @@
 import {Observable} from 'rx';
 import Cycle from '@cycle/core';
-import {makeDOMDriver, div, label, input, p, form, span, h2} from '@cycle/dom';
+import {makeDOMDriver, div, label, input, p, form, span, h2, button} from '@cycle/dom';
 
 import styles from './index.css';
 
@@ -11,6 +11,9 @@ import InputFile from './components/inputFile.js'
 // Include normalize.css
 import normalize from 'normalize.css/normalize.css';
 //require('normalize.css/normalize.css');
+//
+//var remote = require('remote');
+import remote from 'remote';
 
 //import {restart, restartable} from 'cycle-restart';
 
@@ -26,6 +29,20 @@ import normalize from 'normalize.css/normalize.css';
 //            label({for: id, className: styles.label}, labelText),
 //        ]);
 //}
+
+
+
+//const ENV = process.env.NODE_ENV || 'production';
+if (process.env.NODE_ENV === 'development') {
+    const debugMenu = require('debug-menu');
+    //import inputMenu from 'electron-input-menu';
+    //import context from 'electron-contextmenu-middleware';
+    //context.use(inputMenu);
+    //context.use(debugMenu.middleware);
+    //context.activate();
+    debugMenu.install();
+}
+
 
 
 function main(drivers) {
@@ -49,12 +66,37 @@ function main(drivers) {
   const directoryInput = InputFile({DOM: drivers.DOM, props: {id: 'directory', labelName: 'Directory'} });
   //const commitInput = makeInput('commit', 'Initial commit'),
 
+  //const create$ = drivers.DOM.select('#createbtn').events('click').map(() => true).startWith(false);
+  const create$ = drivers.DOM.select('#createbtn').events('click')
+    //.flatMap( () => Observable.combineLatest(nameInput.value$, emailInput.value$  ) )
+    //.combineLatest(nameInput.value$, emailInput.value$, (a, b ,c ) => {a,b,c})
+    .withLatestFrom(nameInput.value$, emailInput.value$, projectNameInput.value$, licenseSelect.value$, directoryInput.value$,
+                    (_, name, email, projectName, license, directory) => { return {name, email, projectName, license, directory}})
+                    .subscribe(({name, email, projectName, license, directory}) => console.log(`Name: ${name}\nEmail: ${email}\n`+
+                                                                                               `Project name: ${projectName}\nLicense: ${license}\n`+
+                                                                                               `Directory: ${directory}`));
+    //.map(name => console.log(name) )
+
+  const cancel$ = drivers.DOM.select('#cancelbtn').events('click')
+    .subscribe(() => {remote.getCurrentWindow().close()});
+
   return {
 
     DOM: Observable.combineLatest(nameInput.value$, emailInput.value$, projectNameInput.value$, licenseSelect.value$, directoryInput.value$,
                                   nameInput.vtree$, emailInput.vtree$, projectNameInput.vtree$, licenseSelect.vtree$, directoryInput.vtree$,
+                                  //create$,
                                 (name, email, projectName, license, directory,
-                                 nameInputVTree, emailInputVTree, projectNameInputVTree, licenseSelectVTree, directoryInputVTree) => {
+                                 nameInputVTree, emailInputVTree, projectNameInputVTree, licenseSelectVTree, directoryInputVTree,
+                                 //create,
+                                ) => {
+
+        //if (create){
+        //    console.log(name);
+        //    console.log(email);
+        //    console.log(projectName);
+        //    console.log(license);
+        //    console.log(directory);
+        //}
 
         return div({className: styles.container}, div({className: styles.centeredItem}, [
             form([
@@ -66,7 +108,9 @@ function main(drivers) {
                 licenseSelectVTree,
                 //initialCommitVTree,
             ]),
-            h2(`${name} <${email}> with value ${license}`)
+            h2(`${name} <${email}> with value ${license}`),
+            button({id: 'createbtn'}, 'Create'),
+            button({id: 'cancelbtn'}, 'Cancel'),
             ]));
 
         }

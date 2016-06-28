@@ -10,13 +10,10 @@ let styles = {};
 Object.assign(styles, i_styles, c_styles);
 
 
-var remote = require('remote');
+//var remote = require('remote');
+import remote from 'remote';
 var dialog = remote.require('electron').dialog;
 
-
-//function BADDDD_atomDriver(outgoing$) {
-//    return Observable.fromNodeCallback(dialog.showOpenDialog) ( { properties: ['openDirectory'] });
-//}
 
 const showDialog = Observable.fromCallback(dialog.showOpenDialog);
 
@@ -26,6 +23,7 @@ function intent(DOM, id){
     const newValue$ = DOM.select(`#${id}`).events('click')
     .flatMap(() => showDialog({properties: ['openDirectory'] }))
     .map(dirs => (dirs === undefined ? '' : dirs[0]) )
+    .share()
     ;
 
 

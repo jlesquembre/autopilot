@@ -11,13 +11,10 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 
-
 if (process.env.NODE_ENV === 'development') {
-  //require('electron-debug')();
   require('electron-debug')({
     showDevTools: true
   });
-
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -46,9 +43,9 @@ function createWindow () {
     mainWindow.close();
   });
 
-  electron.globalShortcut.register('F12', () => {
-    mainWindow.toggleDevTools({ detach: true });
-  });
+  //electron.globalShortcut.register('F12', () => {
+  //  mainWindow.toggleDevTools({ detach: true });
+  //});
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

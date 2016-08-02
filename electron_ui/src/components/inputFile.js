@@ -11,7 +11,9 @@ Object.assign(styles, i_styles, c_styles);
 
 
 //var remote = require('remote');
-import remote from 'remote';
+//import remote from 'remote';
+//const remote = require('electron').remote;
+import {remote} from 'electron';
 var dialog = remote.require('electron').dialog;
 
 

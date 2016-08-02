@@ -13,7 +13,9 @@ import normalize from 'normalize.css/normalize.css';
 //require('normalize.css/normalize.css');
 //
 //var remote = require('remote');
-import remote from 'remote';
+//import remote from 'remote';
+//const remote = require('electron').remote;
+import {remote} from 'electron';
 
 //import {restart, restartable} from 'cycle-restart';
 

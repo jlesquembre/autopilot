@@ -43,7 +43,6 @@ config = {
       // ...
       // and if you want to compress,
       // just use css-loader option that already use cssnano under the hood
-      //require("cssnano")(),
       require("postcss-browser-reporter")(),
       require("postcss-reporter")()
     ]
